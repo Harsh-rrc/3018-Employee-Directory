@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Harsh-rrc/3018-Employee-Directory#readme",
   "devDependencies": {
+    "@types/morgan": "^1.9.10",
     "@types/node": "^24.6.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
