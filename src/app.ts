@@ -1,5 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
+import employee from './api/v1/routes/employeeRoutes';
+import branch from './api/v1/routes/branchesRoutes';
+
 
 const app = express();
 
@@ -23,5 +26,10 @@ app.get('/', (req, res) => {
     version: '1.0.0'
   });
 });
+
+
+// API Routes
+app.use('/api/v1/employees', employee);
+app.use('/api/v1/branches', branch);
 
 export default app;
