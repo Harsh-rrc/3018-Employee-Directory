@@ -3,11 +3,11 @@ import * as ctrl from '../controllers/employeeControllers';
  
 const router = Router();
  
-router.post('/employees', ctrl.createEmployee);
-router.get('/employees', ctrl.getAllEmployees);
-router.get('/employees/department/:department', ctrl.getEmployeesByDepartment);
-router.get('/employees/:id', ctrl.getEmployeeById);
-router.put('/employees/:id', ctrl.updateEmployee);
-router.delete('/employees/:id', ctrl.deleteEmployee);
+router.post('/', ctrl.createEmployee);
+router.get('/', ctrl.getAllEmployees);
+router.get('/department/:department', ctrl.getEmployeesByDepartment);
+router.get('/:id', ctrl.getEmployeeById);
+router.put('/:id', ctrl.updateEmployee);
+router.delete('/:id', ctrl.deleteEmployee);
  
 export default router;
