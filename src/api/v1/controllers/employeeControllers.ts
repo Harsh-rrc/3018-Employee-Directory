@@ -18,11 +18,10 @@ export async function createEmployee(req: Request, res: Response) {
     phone,
     branchId,
   });
- 
   return res.status(201).json(created);
 }
  
- 
+// Get all employees
 export async function getAllEmployees(_req: Request, res: Response) {
   return res.json(employeeService.listEmployees());
 }
