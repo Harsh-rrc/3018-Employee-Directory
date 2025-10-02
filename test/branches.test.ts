@@ -30,6 +30,12 @@ describe('Branch Endpoints', () => {
       expect(response.body).toHaveProperty('name');
     });
  
+    it('should return 404 for non-existent branch', async () => {
+      const response = await request(app).get('/api/v1/branches/999');
+      expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('message', 'Branch not found');
+    });
+ 
     it('should return 400 for invalid id', async () => {
       const response = await request(app).get('/api/v1/branches/abc');
       expect(response.status).toBe(400);
@@ -59,6 +65,12 @@ describe('Branch Endpoints', () => {
       const response = await request(app).put('/api/v1/branches/1').send(updates);
       expect(response.status).toBe(200);
       expect(response.body.name).toBe('Updated Branch');
+    });
+ 
+    it('should return 404 for non-existent branch', async () => {
+      const response = await request(app).put('/api/v1/branches/999').send({ name: 'Test' });
+      expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('message', 'Branch not found');
     });
  
     it('should return 400 for invalid id', async () => {
