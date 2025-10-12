@@ -1,0 +1,25 @@
+import Joi from 'joi';
+
+/**
+ * Schema for validating new employee creation requests.
+ * Ensures all required fields are present and properly formatted.
+ */
+export const createEmployeeSchema = Joi.object({
+  name: Joi.string().min(2).max(100).required(),    // employee name
+  email: Joi.string().email().required(),           // valid email required
+  position: Joi.string().min(2).max(100).required(),// job title
+  branchId: Joi.string().required(),               // branch identifier
+  department: Joi.string().optional(),               // branch identifier
+});
+
+/**
+ * Schema for validating employee update requests.
+ * All fields are optional to allow partial updates.
+ */
+export const updateEmployeeSchema = Joi.object({
+  name: Joi.string().min(2).max(100).optional(),
+  email: Joi.string().email().optional(),
+  position: Joi.string().min(2).max(100).optional(),
+  branchId: Joi.string().optional(),
+  department: Joi.string().optional(),
+});
