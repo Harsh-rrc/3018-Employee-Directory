@@ -4,6 +4,3 @@ dist/
 # Firebase admin SDK
 serviceAccountKey.json
 .env
-
-# .gitignore
-<your-service-account-file>.json

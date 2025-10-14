@@ -7,7 +7,7 @@ import Joi from 'joi';
 export const createBranchSchema = Joi.object({
   name: Joi.string().min(2).max(100).required(),    // branch name
   address: Joi.string().min(5).required(),             // branch address
-  phone: Joi.string().pattern(/^\+?[1-9]\d{1,14}$/).optional(), // optional phone number
+  phone: Joi.string().pattern(/^\+?[1-9]\d{9,13}$/).optional(), // optional phone number
 });
 
 /**
@@ -17,5 +17,5 @@ export const createBranchSchema = Joi.object({
 export const updateBranchSchema = Joi.object({
   name: Joi.string().min(2).max(150).optional(),
   address: Joi.string().min(5).optional(),
-  phone: Joi.string().pattern(/^\+?[1-9]\d{1,14}$/).optional(),
+  phone: Joi.string().pattern(/^\+?[1-9]\d{9,13}$/).optional(),
 });

@@ -11,6 +11,9 @@ jest.mock("../config/firebaseConfig", () => ({
     },
 }));
 
+// Mock console.error to suppress error logs during tests
+global.console.error = jest.fn();
+
 // Reset all mocks after each test
 afterEach(() => {
     jest.clearAllMocks();

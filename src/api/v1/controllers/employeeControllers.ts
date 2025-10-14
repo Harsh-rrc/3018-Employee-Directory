@@ -1,24 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import * as employeeService from "../services/employeeService";
 import { CreateEmployeeRequest, Employee } from "../models/employeeModel";
-import { ApiResponse } from "../models/apiresponseModel";
 
 // Create a new employee
 export async function createEmployee(
   req: Request<{}, {}, CreateEmployeeRequest>,
-  res: Response<ApiResponse<Employee>>,
+  res: Response<Employee>,
   next: NextFunction
 ) {
   try {
     const employeeData = req.body;
     const created = employeeService.createEmployee(employeeData);
-
-    const response: ApiResponse<Employee> = {
-      success: true,
-      data: created,
-      message: "Employee created successfully",
-    };
-    return res.status(201).json(response);
+    return res.status(201).json(created);
   } catch (error) {
     next(error);
   }
@@ -27,17 +20,12 @@ export async function createEmployee(
 // Get all employees
 export async function getAllEmployees(
   _req: Request,
-  res: Response<ApiResponse<Employee[]>>,
+  res: Response<Employee[]>,
   next: NextFunction
 ) {
   try {
     const employees = employeeService.listEmployees();
-    const response: ApiResponse<Employee[]> = {
-      success: true,
-      data: employees,
-      message: "Employees retrieved successfully",
-    };
-    return res.json(response);
+    return res.json(employees);
   } catch (error) {
     next(error);
   }
@@ -46,7 +34,7 @@ export async function getAllEmployees(
 // Get employee by ID
 export async function getEmployeeById(
   req: Request<{ id: string }>,
-  res: Response<ApiResponse<Employee>>,
+  res: Response<Employee>,
   next: NextFunction
 ) {
   try {
@@ -55,12 +43,7 @@ export async function getEmployeeById(
 
     if (!emp) throw new Error("Employee not found");
 
-    const response: ApiResponse<Employee> = {
-      success: true,
-      data: emp,
-      message: "Employee retrieved successfully",
-    };
-    return res.json(response);
+    return res.json(emp);
   } catch (error) {
     next(error);
   }
@@ -69,7 +52,7 @@ export async function getEmployeeById(
 // Update employee
 export async function updateEmployee(
   req: Request<{ id: string }, {}, Partial<CreateEmployeeRequest>>,
-  res: Response<ApiResponse<Employee>>,
+  res: Response<Employee>,
   next: NextFunction
 ) {
   try {
@@ -78,12 +61,7 @@ export async function updateEmployee(
 
     if (!updated) throw new Error("Employee not found");
 
-    const response: ApiResponse<Employee> = {
-      success: true,
-      data: updated,
-      message: "Employee updated successfully",
-    };
-    return res.json(response);
+    return res.json(updated);
   } catch (error) {
     next(error);
   }
@@ -92,7 +70,7 @@ export async function updateEmployee(
 // Delete employee
 export async function deleteEmployee(
   req: Request<{ id: string }>,
-  res: Response<ApiResponse<null>>,
+  res: Response<{ message: string }>,
   next: NextFunction
 ) {
   try {
@@ -101,12 +79,7 @@ export async function deleteEmployee(
 
     if (!ok) throw new Error("Employee not found");
 
-    const response: ApiResponse<null> = {
-      success: true,
-      data: null,
-      message: "Employee deleted successfully",
-    };
-    return res.json(response);
+    return res.json({ message: "Employee deleted successfully" });
   } catch (error) {
     next(error);
   }
@@ -115,20 +88,15 @@ export async function deleteEmployee(
 // Get employees by branch
 export async function getEmployeesByBranch(
   req: Request<{ branchId: string }>,
-  res: Response<ApiResponse<Employee[]>>,
+  res: Response<Employee[]>,
   next: NextFunction
 ) {
   try {
     const branchId = Number(req.params.branchId);
-    if (isNaN(branchId)) throw new Error("Invalid branchId param");
+    if (isNaN(branchId)) throw new Error("Missing branchId param");
 
     const employees = employeeService.listEmployeesByBranch(branchId);
-    const response: ApiResponse<Employee[]> = {
-      success: true,
-      data: employees,
-      message: `Employees for branch ${branchId} retrieved successfully`,
-    };
-    return res.json(response);
+    return res.json(employees);
   } catch (error) {
     next(error);
   }
@@ -137,7 +105,7 @@ export async function getEmployeesByBranch(
 // Get employees by department
 export async function getEmployeesByDepartment(
   req: Request<{ department: string }>,
-  res: Response<ApiResponse<Employee[]>>,
+  res: Response<Employee[]>,
   next: NextFunction
 ) {
   try {
@@ -145,12 +113,7 @@ export async function getEmployeesByDepartment(
     if (!department) throw new Error("Missing department param");
 
     const employees = employeeService.listEmployeesByDepartment(department);
-    const response: ApiResponse<Employee[]> = {
-      success: true,
-      data: employees,
-      message: `Employees in department ${department} retrieved successfully`,
-    };
-    return res.json(response);
+    return res.json(employees);
   } catch (error) {
     next(error);
   }

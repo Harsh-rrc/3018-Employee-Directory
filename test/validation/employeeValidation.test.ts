@@ -6,7 +6,7 @@ describe('Employee Validation', () => {
             name: 'John Doe',
             position: 'Developer',
             email: 'john@example.com',
-            branchId: 'branch-123'
+            branchId: 1
         };
 
         const { error } = createEmployeeSchema.validate(validData);

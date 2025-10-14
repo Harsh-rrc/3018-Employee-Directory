@@ -7,9 +7,10 @@ import Joi from 'joi';
 export const createEmployeeSchema = Joi.object({
   name: Joi.string().min(2).max(100).required(),    // employee name
   email: Joi.string().email().required(),           // valid email required
+  phone: Joi.string().optional(),                   // phone number
   position: Joi.string().min(2).max(100).required(),// job title
-  branchId: Joi.string().required(),               // branch identifier
-  department: Joi.string().optional(),               // branch identifier
+  branchId: Joi.number().integer().required(),      // branch identifier
+  department: Joi.string().optional(),              // department
 });
 
 /**
@@ -20,6 +21,6 @@ export const updateEmployeeSchema = Joi.object({
   name: Joi.string().min(2).max(100).optional(),
   email: Joi.string().email().optional(),
   position: Joi.string().min(2).max(100).optional(),
-  branchId: Joi.string().optional(),
+  branchId: Joi.number().integer().optional(),
   department: Joi.string().optional(),
 });

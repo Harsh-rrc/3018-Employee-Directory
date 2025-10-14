@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import employee from './api/v1/routes/employeeRoutes';
 import branch from './api/v1/routes/branchesRoutes';
+import { errorHandler } from './api/v1/middleware/errorHandler';
 
 
 const app = express();
@@ -31,5 +32,8 @@ app.get('/', (req, res) => {
 // API Routes
 app.use('/api/v1/employees', employee);
 app.use('/api/v1/branches', branch);
+
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
 export default app;

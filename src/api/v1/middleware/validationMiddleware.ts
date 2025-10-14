@@ -12,7 +12,7 @@ export const validate = (schema: Schema) => {
     const { error } = schema.validate(req.body, { abortEarly: false });   // abortEarly: false to get all errors
     if (error) {
       return res.status(400).json({
-        message: "Validation error",
+        error: "Validation error",
         details: error.details.map((d) => d.message),
       });
     }
