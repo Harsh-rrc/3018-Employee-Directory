@@ -3,4 +3,5 @@ dist/
 
 # Firebase admin SDK
 serviceAccountKey.json
+assignment2-3-fb214-firebase-adminsdk-fbsvc-cbb92cc82d.json
 .env
