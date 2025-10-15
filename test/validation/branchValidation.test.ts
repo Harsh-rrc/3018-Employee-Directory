@@ -1,11 +1,11 @@
-import { createBranchSchema } from '../../src/api/v1/validation/branchValidation';
+import { createBranchSchema } from '../../src/api/v1/validation/branchSchemas';
 
 describe('Branch Validation', () => {
     it('should validate correct branch data', () => {
         const validData = {
             name: 'Downtown Branch',
             address: '123 Main Street, Toronto',
-            phone: '+14165551234'
+            phone: '+1-416-555-1234'
         };
 
         const { error } = createBranchSchema.validate(validData);

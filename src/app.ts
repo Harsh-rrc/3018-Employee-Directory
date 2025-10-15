@@ -1,39 +1,15 @@
-import express from 'express';
-import morgan from 'morgan';
-import employee from './api/v1/routes/employeeRoutes';
-import branch from './api/v1/routes/branchesRoutes';
-import { errorHandler } from './api/v1/middleware/errorHandler';
-
+import express from "express";
+import branchRoutes from "./api/v1/routes/branchesRoutes";
+import employeeRoutes from "./api/v1/routes/employeeRoutes";
 
 const app = express();
-
-// Middleware
-app.use(morgan('combined'));
 app.use(express.json());
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'Server is healthy',
-    timestamp: new Date().toISOString()
-  });
-});
+// Routes
+app.use("/api/v1/branches", branchRoutes);
+app.use("/api/v1/employees", employeeRoutes);
 
-// Basic route for testing
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Employee Directory and Branch Management API',
-    version: '1.0.0'
-  });
-});
-
-
-// API Routes
-app.use('/api/v1/employees', employee);
-app.use('/api/v1/branches', branch);
-
-// Error handling middleware (must be last)
-app.use(errorHandler);
+// Health check
+app.get("/health", (_, res) => res.status(200).json({ message: "Server is healthy" }));
 
 export default app;

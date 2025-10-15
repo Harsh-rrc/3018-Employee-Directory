@@ -1,6 +1,7 @@
 export interface Branch {
-id: number;
+id?: string;
 name: string;
-address: string;
+address?: string;
 phone?: string;
+createdAt?: string;
 }

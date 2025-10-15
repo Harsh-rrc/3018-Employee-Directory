@@ -1,15 +1,20 @@
-import { Router } from 'express';
-import * as ctrl from '../controllers/employeeControllers';
-import { validate } from '../middleware/validationMiddleware';
-import { createEmployeeSchema, updateEmployeeSchema } from '../validation/employeeValidation';
+import express from "express";
+import * as ctrl from "../controllers/employeeControllers";
+import { validateRequest } from "../middleware/validationMiddleware";
+import {
+  createEmployeeSchema,
+  updateEmployeeSchema,
+} from "../validation/employeeSchemas";
 
-const router = Router();
+const router = express.Router();
 
-router.post('/', validate(createEmployeeSchema), ctrl.createEmployee);
-router.get('/', ctrl.getAllEmployees);
-router.get('/:department', ctrl.getEmployeesByDepartment);
-router.get('/:id', ctrl.getEmployeeById);
-router.put('/:id', validate(updateEmployeeSchema), ctrl.updateEmployee);
-router.delete('/:id', ctrl.deleteEmployee);
- 
+router.get("/", ctrl.getAllEmployees);
+router.get("/:id", ctrl.getEmployeeById);
+router.get("/department/:department", ctrl.getEmployeesByDepartment);
+
+//  Use employee schemas, not branch schemas
+router.post("/", validateRequest({ body: createEmployeeSchema }), ctrl.createEmployee);
+router.put("/:id", validateRequest({ body: updateEmployeeSchema }), ctrl.updateEmployee);
+router.delete("/:id", ctrl.deleteEmployee);
+
 export default router;

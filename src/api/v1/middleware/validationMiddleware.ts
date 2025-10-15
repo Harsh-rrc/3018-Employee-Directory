@@ -1,21 +1,45 @@
 // this middleware validates request bodies against a given Joi schema.
 import { Request, Response, NextFunction } from "express";
-import { Schema } from "joi";
+import { ObjectSchema } from "joi";
 
-/**
- * 
- * @param schema 
- * @returns 
- */
-export const validate = (schema: Schema) => {
+interface ValidationSchemas {
+  body?: ObjectSchema;
+  params?: ObjectSchema;
+  query?: ObjectSchema;
+}
+
+export const validateRequest = (schemas: ValidationSchemas) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req.body, { abortEarly: false });   // abortEarly: false to get all errors
-    if (error) {
+    const errors: string[] = [];
+
+    if (schemas.body) {
+      const { error } = schemas.body.validate(req.body, { abortEarly: false });
+      if (error) {
+        errors.push(...error.details.map(d => d.message));
+      }
+    }
+
+    if (schemas.params) {
+      const { error } = schemas.params.validate(req.params, { abortEarly: false });
+      if (error) {
+        errors.push(...error.details.map(d => d.message));
+      }
+    }
+
+    if (schemas.query) {
+      const { error } = schemas.query.validate(req.query, { abortEarly: false });
+      if (error) {
+        errors.push(...error.details.map(d => d.message));
+      }
+    }
+
+    if (errors.length > 0) {
       return res.status(400).json({
-        error: "Validation error",
-        details: error.details.map((d) => d.message),
+        error: "Validation failed",
+        details: errors,
       });
     }
+
     next();
   };
 };

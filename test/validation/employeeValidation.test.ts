@@ -1,4 +1,4 @@
-import { createEmployeeSchema } from '../../src/api/v1/validation/employeeValidation';
+import { createEmployeeSchema } from '../../src/api/v1/validation/employeeSchemas';
 
 describe('Employee Validation', () => {
     it('should validate correct employee data', () => {
@@ -6,7 +6,7 @@ describe('Employee Validation', () => {
             name: 'John Doe',
             position: 'Developer',
             email: 'john@example.com',
-            branchId: 1
+            branchId: '1'
         };
 
         const { error } = createEmployeeSchema.validate(validData);

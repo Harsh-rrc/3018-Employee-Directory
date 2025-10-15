@@ -1,35 +1,55 @@
-import { Branch, branches } from '../../../data/branches';
+import {
+  createDocument,
+  getDocuments,
+  getDocumentById,
+  updateDocument,
+  deleteDocument,
+} from "../repositories/firestoreRepository";
+
+export interface Branch {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+}
 
 // Get all branches
-export function listBranches(): Branch[] {
-  return branches;
-}
+export const listBranches = async (): Promise<Branch[]> => {
+  const snapshot = await getDocuments("branches");
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as Omit<Branch, "id">),
+  }));
+};
 
-// Find branch by ID
-export function findBranchById(id: number): Branch | undefined {
-  return branches.find((b: Branch) => b.id === id);
-}
+// Get single branch
+export const findBranchById = async (id: string): Promise<Branch | null> => {
+  const doc = await getDocumentById("branches", id);
+  return doc ? { id: doc.id, ...(doc.data() as Omit<Branch, "id">) } : null;
+};
 
-// Create a new branch
-export function createBranch(payload: Omit<Branch, 'id'>): Branch {
-  const nextId = branches.length ? Math.max(...branches.map((b: Branch) => b.id)) + 1 : 1;
-  const newBranch: Branch = { id: nextId, ...payload };
-  branches.push(newBranch);
-  return newBranch;
-}
+// Create new branch
+export const createBranch = async (
+  data: Omit<Branch, "id">
+): Promise<Branch> => {
+  const id = await createDocument("branches", data);
+  return { id, ...data };
+};
 
-// Update an existing branch
-export function updateBranch(id: number, changes: Partial<Omit<Branch, 'id'>>): Branch | null {
-  const idx = branches.findIndex((b: Branch) => b.id === id);
-  if (idx === -1) return null;
-  branches[idx] = { ...branches[idx], ...changes };
-  return branches[idx];
-}
+// Update branch
+export const updateBranch = async (
+  id: string,
+  data: Partial<Omit<Branch, "id">>
+): Promise<Branch | null> => {
+  const branch = await findBranchById(id);
+  if (!branch) return null;
 
-// Delete a branch
-export function deleteBranch(id: number): boolean {
-  const idx = branches.findIndex((b: Branch) => b.id === id);
-  if (idx === -1) return false;
-  branches.splice(idx, 1);
+  await updateDocument("branches", id, data);
+  return findBranchById(id);
+};
+
+// Delete branch
+export const deleteBranchById = async (id: string): Promise<boolean> => {
+  await deleteDocument("branches", id);
   return true;
-}
+};
