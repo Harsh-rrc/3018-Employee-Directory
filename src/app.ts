@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 import { getHelmetConfig } from "./config/helmetConfig";
 import { getCorsOptions } from "./config/corsConfig";
@@ -8,10 +9,9 @@ import { getCorsOptions } from "./config/corsConfig";
 dotenv.config();
 
 const app = express();
-
 // Security middleware
 app.use(getHelmetConfig());
-app.use(getCorsOptions());
+app.use(cors(getCorsOptions()));
 
 // Your existing routes
 app.use("/api/v1/items", require("./routes/itemRoutes"));
