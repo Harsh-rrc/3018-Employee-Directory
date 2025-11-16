@@ -1,5 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
+
+// Load env vars first
+dotenv.config();
+
 import cors from "cors";
 import setupSwagger from "./config/swagger";
 import { getHelmetConfig } from "./config/helmetConfig";
