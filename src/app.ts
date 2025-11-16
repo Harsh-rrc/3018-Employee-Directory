@@ -1,15 +1,19 @@
 import express from "express";
-import branchRoutes from "./api/v1/routes/branchesRoutes";
-import employeeRoutes from "./api/v1/routes/employeeRoutes";
+import dotenv from "dotenv";
+
+import { getHelmetConfig } from "./config/helmetConfig";
+import { getCorsOptions } from "./config/corsConfig";
+
+// Load env vars first
+dotenv.config();
 
 const app = express();
-app.use(express.json());
 
-// Routes
-app.use("/api/v1/branches", branchRoutes);
-app.use("/api/v1/employees", employeeRoutes);
+// Security middleware
+app.use(getHelmetConfig());
+app.use(getCorsOptions());
 
-// Health check
-app.get("/health", (_, res) => res.status(200).json({ message: "Server is healthy" }));
+// Your existing routes
+app.use("/api/v1/items", require("./routes/itemRoutes"));
 
 export default app;

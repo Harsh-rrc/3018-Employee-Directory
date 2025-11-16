@@ -1,6 +1,6 @@
 import express from "express";
-import employeeRoutes from "./api/v1/routes/employeeRoutes";
-import branchRoutes from "./api/v1/routes/branchesRoutes";
+import employeeRoutes from "../api/v1/routes/employeeRoutes";
+import branchRoutes from "../api/v1/routes/branchesRoutes";
 
 const app = express();
 const PORT = 3000;
