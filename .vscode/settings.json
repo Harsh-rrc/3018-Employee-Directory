@@ -1,7 +1,10 @@
 {
     "cSpell.words": [
         "adminsdk",
+        "clickjacking",
         "Firestore",
+        "frameguard",
+        "HSTS",
         "redocly"
     ]
 }
