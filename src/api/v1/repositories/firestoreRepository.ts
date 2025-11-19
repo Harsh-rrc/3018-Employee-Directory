@@ -5,7 +5,6 @@ interface FieldValuePair {
     fieldValue: string | number | boolean;
 }
 
-
 /**
  * Creates a new document in a specified Firestore collection.
  * @param {string} collectionName - The name of the collection.
