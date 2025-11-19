@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as service from "../services/employeeService";
 import * as branchService from "../services/branchService";
 
+// Controller to get all employees
 export const getAllEmployees = async (_: Request, res: Response) => {
   try {
     const data = await service.listEmployees();
@@ -11,6 +12,7 @@ export const getAllEmployees = async (_: Request, res: Response) => {
   }
 };
 
+// Controller to get an employee by ID
 export const getEmployeeById = async (req: Request, res: Response) => {
   try {
     const data = await service.findEmployeeById(req.params.id);
@@ -21,6 +23,7 @@ export const getEmployeeById = async (req: Request, res: Response) => {
   }
 };
 
+// Controller to create a new employee
 export const createEmployee = async (req: Request, res: Response) => {
   try {
     const data = await service.createEmployee(req.body);
@@ -30,6 +33,7 @@ export const createEmployee = async (req: Request, res: Response) => {
   }
 };
 
+// Controller to update an existing employee
 export const updateEmployee = async (req: Request, res: Response) => {
   try {
     const data = await service.updateEmployee(req.params.id, req.body);
@@ -40,6 +44,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
   }
 };
 
+// Controller to delete an employee
 export const deleteEmployee = async (req: Request, res: Response) => {
   try {
     const emp = await service.findEmployeeById(req.params.id);
@@ -65,13 +70,12 @@ export const getEmployeesByDepartment = async (req: Request, res: Response) => {
   }
 };
 
-// Get employees by branch
+// Controller to get employees by branch
 export const getEmployeesByBranch = async (req: Request, res: Response) => {
   try {
     const { branchId } = req.params;
     if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
 
-    // Optional: check if branch exists
     const branchExists = await branchService.findBranchById(branchId);
     if (!branchExists) return res.status(404).json({ error: "Branch not found" });
 
