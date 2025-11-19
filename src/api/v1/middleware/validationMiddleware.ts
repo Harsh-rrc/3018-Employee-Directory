@@ -8,6 +8,7 @@ interface ValidationSchemas {
   query?: ObjectSchema;
 }
 
+// Middleware to validate request data against provided Joi schemas
 export const validateRequest = (schemas: ValidationSchemas) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const errors: string[] = [];

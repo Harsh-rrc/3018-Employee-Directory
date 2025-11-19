@@ -1,3 +1,4 @@
+// src/api/v1/services/employeeService.ts
 import {
   createDocument,
   getDocuments,
@@ -6,6 +7,7 @@ import {
   deleteDocument,
 } from "../repositories/firestoreRepository";
 
+// Employee interface
 export interface Employee {
   id: string;
   name: string;
